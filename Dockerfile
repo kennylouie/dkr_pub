@@ -10,4 +10,4 @@ FROM alpine:3.11
 
 COPY --from=build /dkr_pub/target/release/dkr_pub /bin/.
 
-CMD ["/bin/dkr_pub"]
+ENTRYPOINT ["/bin/dkr_pub"]

@@ -64,12 +64,14 @@ impl Github {
     }
 }
 
+const INPUT_NAME: &str = "INPUT_NAME";
 const INPUT_USERNAME: &str = "INPUT_USERNAME";
 const INPUT_PASSWORD: &str = "INPUT_PASSWORD";
 const INPUT_REGISTRY: &str = "INPUT_REGISTRY";
 
 #[derive(Debug)]
 struct Inputs {
+    name: String,
     username: String,
     password: String,
     registry: String,
@@ -78,6 +80,7 @@ struct Inputs {
 impl Inputs {
     fn new() -> Inputs {
         Inputs {
+            name: "".to_owned(),
             username: "".to_owned(),
             password: "".to_owned(),
             registry: "".to_owned(),
@@ -86,6 +89,9 @@ impl Inputs {
 
     fn get_from_env(&mut self) {
         let empty = |_| "".to_owned();
+
+        self.name = env::var(INPUT_NAME)
+            .unwrap_or_else(empty);
 
         self.username = env::var(INPUT_USERNAME)
             .unwrap_or_else(empty);
@@ -102,7 +108,7 @@ fn main() {
     let mut inputs: Inputs = Inputs::new();
     inputs.get_from_env();
 
-    println!("inputs {:?}", inputs);
+    println!("input name: {:?}", inputs.name);
 
     let mut github: Github = Github::new();
     github.get_from_env();
