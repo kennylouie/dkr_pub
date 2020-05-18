@@ -1,4 +1,4 @@
-name: 'Docker Publish'
+name: 'rusty docker publish'
 description: 'github docker container action to build, tag, and publish docker images to remote repositories '
 inputs:
   username:
