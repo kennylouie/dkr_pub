@@ -27,9 +27,17 @@ The url of the remote repository (e.g. github package registry) to push images t
 ### Example to push to dockerhub
 
 ```
-uses: actions/dkr_pub@v1
-with:
-    name: "my-test-image"
-    username: ${{ secrets.DOCKERHUB_USERNAME }}
-    password: ${{ secrets.DOCKERHUB_PASSWORD }}
+env:
+  IMAGE_NAME: "test-image"
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: kennylouie/dkr_pub@v0.0.1
+        with:
+          name: ${{ env.IMAGE_NAME }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 ```
