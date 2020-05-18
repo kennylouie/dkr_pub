@@ -17,3 +17,6 @@ runs:
     - ${{ inputs.username }}
     - ${{ inputs.password }}
     - ${{ inputs.registry }}
+branding:
+  icon: 'anchor'
+  color: 'orange'
