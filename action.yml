@@ -1,6 +1,9 @@
 name: 'dkr_pub'
 description: 'github docker container action to build, tag, and publish docker images to remote repositories '
 inputs:
+  name:
+    description: 'docker image name'
+    required: true
   username:
     description: 'remote container registry username'
     required: true
