@@ -15,8 +15,9 @@ inputs:
     default: ""
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker://kennylouie/dkr_pub:0.0.1'
   args:
+    - ${{ inputs.name }}
     - ${{ inputs.username }}
     - ${{ inputs.password }}
     - ${{ inputs.registry }}
