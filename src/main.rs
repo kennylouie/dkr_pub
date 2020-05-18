@@ -68,6 +68,8 @@ const INPUT_NAME: &str = "INPUT_NAME";
 const INPUT_USERNAME: &str = "INPUT_USERNAME";
 const INPUT_PASSWORD: &str = "INPUT_PASSWORD";
 const INPUT_REGISTRY: &str = "INPUT_REGISTRY";
+const INPUT_TAG: &str = "INPUT_TAG";
+const INPUT_BUILD: &str = "INPUT_BUILD";
 
 #[derive(Debug)]
 struct Inputs {
@@ -75,6 +77,8 @@ struct Inputs {
     username: String,
     password: String,
     registry: String,
+    tag: String,
+    build: bool,
 }
 
 impl Inputs {
@@ -84,6 +88,8 @@ impl Inputs {
             username: "".to_owned(),
             password: "".to_owned(),
             registry: "".to_owned(),
+            tag: "".to_owned(),
+            build: true,
         }
     }
 
@@ -101,6 +107,28 @@ impl Inputs {
 
         self.registry = env::var(INPUT_REGISTRY)
             .unwrap_or_else(empty);
+
+        self.tag = env::var(INPUT_TAG)
+            .unwrap_or_else(empty);
+
+        self.build = env::var(INPUT_BUILD)
+            .unwrap_or_else(empty).parse::<bool>().unwrap_or(true);
+    }
+}
+
+struct Config<'a, 'b> {
+    github_conf: &'a Github,
+    input_conf: &'b Inputs,
+    current_tag: &'a String,
+}
+
+impl<'a, 'b> Config<'a, 'b> {
+    fn new(g: &'a Github, i: &'b Inputs) -> Config<'a, 'b> {
+        Config {
+            github_conf: g,
+            input_conf: i,
+            current_tag: &g.github_ref,
+        }
     }
 }
 
@@ -108,10 +136,10 @@ fn main() {
     let mut inputs: Inputs = Inputs::new();
     inputs.get_from_env();
 
-    println!("input name: {:?}", inputs.name);
-
     let mut github: Github = Github::new();
     github.get_from_env();
 
-    println!("github {:?}", github);
+    let conf: Config = Config::new(&github, &inputs);
+
+    println!("{:?} {:?} {:?}", conf.github_conf.github_ref, conf.input_conf.username, conf.current_tag);
 }
