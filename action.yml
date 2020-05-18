@@ -1,0 +1,19 @@
+name: 'Docker Publish'
+description: 'github docker container action to build, tag, and publish docker images to remote repositories '
+inputs:
+  username:
+    description: 'remote container registry username'
+    required: true
+  password:
+    description: 'remote container registry password'
+    required: true
+  registry:
+    description: 'remote container registry url'
+    default: ""
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.username }}
+    - ${{ inputs.password }}
+    - ${{ inputs.registry }}
